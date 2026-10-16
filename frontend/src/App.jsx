@@ -30,6 +30,7 @@ import {
 
 import StoryDocEditor from './components/StoryDocEditor'
 import StoryDocViewer from './components/StoryDocViewer'
+import TweetViewer from './components/TweetViewer'
 
 const COLOR_PRESETS = ['#3b82f6', '#06b6d4', '#10b981', '#8b5cf6', '#ec4899', '#f59e0b', '#ef4444', '#64748b']
 
@@ -83,6 +84,7 @@ export default function App() {
   const [showPostModal, setShowPostModal] = useState(false)
   const [editingPost, setEditingPost] = useState(null)
   const [readingStory, setReadingStory] = useState(null)
+  const [viewingTweet, setViewingTweet] = useState(null)
   const [showSpaceModal, setShowSpaceModal] = useState(false)
   const [showFolderModal, setShowFolderModal] = useState(false)
   const [showCollectionModal, setShowCollectionModal] = useState(false)
@@ -326,16 +328,20 @@ export default function App() {
 
   // Toggle favorite / like
   const handleLikePost = async (post, e) => {
-    e.stopPropagation()
+    if (e && e.stopPropagation) e.stopPropagation()
+    const newLikes = (post.likes_count || 0) + 1
     try {
       await fetch(`${API_BASE}/posts/${post.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...post,
-          likes_count: post.likes_count + 1,
+          likes_count: newLikes,
         }),
       })
+      setViewingTweet((prev) =>
+        prev && prev.id === post.id ? { ...prev, likes_count: newLikes } : prev
+      )
       loadPosts()
     } catch (err) {
       console.error(err)
@@ -959,7 +965,7 @@ export default function App() {
                   <article
                     key={post.id}
                     className="tile-card"
-                    onClick={() => isStory ? setReadingStory(post) : handleOpenEditPost(post)}
+                    onClick={() => (isStory ? setReadingStory(post) : setViewingTweet(post))}
                     style={{ cursor: 'pointer' }}
                   >
                     <div>
@@ -1065,18 +1071,20 @@ export default function App() {
                       </div>
 
                       <div className="tile-card-actions">
-                        {isStory ? (
-                          <button
-                            className="action-icon-btn"
-                            onClick={(e) => {
-                              e.stopPropagation()
+                        <button
+                          className="action-icon-btn"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            if (isStory) {
                               setReadingStory(post)
-                            }}
-                            title="Read full story"
-                          >
-                            <Eye size={15} />
-                          </button>
-                        ) : null}
+                            } else {
+                              setViewingTweet(post)
+                            }
+                          }}
+                          title={isStory ? 'Read document story' : 'View tweet'}
+                        >
+                          <Eye size={15} />
+                        </button>
 
                         <button
                           className="action-icon-btn"
@@ -1464,13 +1472,23 @@ e.g. 'PostgreSQL 18 concurrency improvements are game-changing!' or https://x.co
       )}
 
       {/* ====================================================
-          MODAL: DOCX STORY VIEWER / READER
+          MODAL: DOCX STORY VIEWER (Clean Document View)
           ==================================================== */}
       {readingStory && (
         <StoryDocViewer
           story={readingStory}
           onClose={() => setReadingStory(null)}
-          onEdit={(story) => handleOpenEditPost(story)}
+        />
+      )}
+
+      {/* ====================================================
+          MODAL: TWEET VIEWER (Authentic Twitter Design)
+          ==================================================== */}
+      {viewingTweet && (
+        <TweetViewer
+          tweet={viewingTweet}
+          onClose={() => setViewingTweet(null)}
+          onLike={handleLikePost}
         />
       )}
 

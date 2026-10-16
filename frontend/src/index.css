@@ -1778,13 +1778,335 @@ button {
 }
 
 /* ====================================================
-   DOCX STORY VIEWER / READER MODAL
+   TWEET VIEWER (Authentic Twitter / X Design)
+   ==================================================== */
+.tweet-viewer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(12px);
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.18s ease-out;
+}
+
+.tweet-viewer-dialog {
+  background: #000000;
+  border: 1px solid #2f3336;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 620px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95), 0 0 40px rgba(29, 155, 240, 0.15);
+  animation: slideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tweet-viewer-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  border-bottom: 1px solid #2f3336;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tweet-viewer-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tweet-viewer-title-text {
+  font-family: Outfit, -apple-system, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f7f9f9;
+}
+
+.tweet-cancel-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: transparent;
+  color: #71767b;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.tweet-cancel-btn:hover {
+  background: rgba(239, 243, 244, 0.1);
+  color: #f7f9f9;
+}
+
+.tweet-viewer-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.tweet-author-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.tweet-author-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tweet-author-meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tweet-author-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tweet-author-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f7f9f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tweet-verified-badge {
+  flex-shrink: 0;
+}
+
+.tweet-author-handle {
+  font-size: 0.9rem;
+  color: #71767b;
+}
+
+.tweet-external-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  border: 1px solid #536471;
+  color: #1d9bf0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.18s ease;
+}
+
+.tweet-external-link-btn:hover {
+  background: rgba(29, 155, 240, 0.1);
+  border-color: #1d9bf0;
+}
+
+.tweet-text-content {
+  font-size: 1.25rem;
+  line-height: 1.55;
+  color: #e7e9ea;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.twitter-link-highlight {
+  color: #1d9bf0;
+  font-weight: 500;
+}
+
+.tweet-media-frame {
+  width: 100%;
+  max-height: 480px;
+  border-radius: 16px;
+  border: 1px solid #2f3336;
+  overflow: hidden;
+  margin-bottom: 16px;
+  background: #0b0e14;
+}
+
+.tweet-media-image {
+  width: 100%;
+  height: 100%;
+  max-height: 480px;
+  object-fit: contain;
+  display: block;
+}
+
+.tweet-timestamp-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  color: #71767b;
+  padding: 14px 0;
+  border-bottom: 1px solid #2f3336;
+}
+
+.tweet-stats-bar {
+  display: flex;
+  gap: 22px;
+  padding: 14px 0;
+  border-bottom: 1px solid #2f3336;
+  font-size: 0.92rem;
+  color: #71767b;
+}
+
+.tweet-stat-unit {
+  display: flex;
+  gap: 4px;
+}
+
+.tweet-stat-unit strong {
+  color: #f7f9f9;
+  font-weight: 700;
+}
+
+.tweet-action-buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #2f3336;
+}
+
+.tweet-action-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: transparent;
+  color: #71767b;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.tweet-action-btn.reply:hover {
+  color: #1d9bf0;
+  background: rgba(29, 155, 240, 0.12);
+}
+
+.tweet-action-btn.repost:hover {
+  color: #00ba7c;
+  background: rgba(0, 186, 124, 0.12);
+}
+
+.tweet-action-btn.like:hover,
+.tweet-action-btn.like.liked {
+  color: #f91880;
+  background: rgba(249, 24, 128, 0.12);
+}
+
+.tweet-action-btn.bookmark:hover {
+  color: #1d9bf0;
+  background: rgba(29, 155, 240, 0.12);
+}
+
+.tweet-action-btn.share:hover {
+  color: #1d9bf0;
+  background: rgba(29, 155, 240, 0.12);
+}
+
+.tweet-vault-note {
+  background: rgba(99, 102, 241, 0.12);
+  border-left: 3px solid #6366f1;
+  border-radius: 4px 12px 12px 4px;
+  padding: 10px 14px;
+  margin-top: 16px;
+}
+
+.tweet-note-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #a5b4fc;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.tweet-note-text {
+  color: #e2e8f0;
+  font-size: 0.88rem;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.tweet-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.tweet-tag-pill {
+  background: rgba(29, 155, 240, 0.12);
+  color: #70c4fa;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.tweet-viewer-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 20px;
+  border-top: 1px solid #2f3336;
+  background: rgba(0, 0, 0, 0.95);
+}
+
+.tweet-bottom-cancel-btn {
+  padding: 8px 24px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f7f9f9;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+
+.tweet-bottom-cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ====================================================
+   DOCX STORY VIEWER / READER MODAL (Clean Document Paper View)
    ==================================================== */
 .docx-viewer-overlay {
   position: fixed;
   inset: 0;
   background: rgba(2, 6, 18, 0.88);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   z-index: 250;
   display: flex;
   align-items: center;
@@ -1793,177 +2115,195 @@ button {
   animation: fadeIn 0.2s ease-out;
 }
 
-.docx-viewer-modal {
-  background: #0b0f19;
-  border: 1.5px solid var(--border-subtle);
-  border-radius: 24px;
-  width: 100%;
-  max-width: 860px;
-  max-height: 92vh;
+.docx-doc-modal {
   display: flex;
   flex-direction: column;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 50px rgba(99, 102, 241, 0.15);
-  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  max-width: 900px;
+  max-height: 92vh;
+  background: #080c16;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85), 0 0 50px rgba(99, 102, 241, 0.2);
+  animation: slideUp 0.24s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.docx-viewer-header {
-  padding: 14px 20px;
-  background: rgba(15, 23, 42, 0.95);
-  border-bottom: 1px solid var(--border-subtle);
+.docx-doc-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
+  align-items: center;
+  padding: 12px 22px;
+  background: #0f1628;
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-.docx-viewer-header-left {
+.docx-doc-header-title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  min-width: 0;
 }
 
-.docx-doc-badge {
+.docx-doc-icon-pill {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.docx-doc-header-name {
+  font-family: Outfit, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f8fafc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 440px;
+}
+
+.docx-doc-meta-pill {
+  font-size: 0.74rem;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+}
+
+.docx-doc-cancel-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  background: rgba(236, 72, 153, 0.15);
-  color: #f472b6;
-  font-size: 0.78rem;
-  font-weight: 600;
-}
-
-.docx-viewer-header-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.docx-control-group {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  background: rgba(255, 255, 255, 0.04);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 2px;
+  color: #f1f5f9;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
 }
 
-.docx-viewer-scroll-container {
-  overflow-y: auto;
+.docx-doc-cancel-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.docx-doc-scroll-viewport {
   flex: 1;
-  padding: 30px 40px;
-  background: #070a12;
+  overflow-y: auto;
+  background: #050811;
+  padding: 36px 24px;
 }
 
-.docx-viewer-paper {
-  background: #0f1629;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.docx-doc-paper-sheet {
+  background: #0d1424;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 16px;
-  padding: 40px 48px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-  max-width: 740px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  max-width: 780px;
   margin: 0 auto;
-  line-height: 1.8;
-  color: #e2e8f0;
+  padding: 48px 56px;
 }
 
-.docx-viewer-paper.font-serif {
-  font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
-}
-
-.docx-viewer-paper.font-sans {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-}
-
-.docx-viewer-cover-wrap {
+.docx-doc-cover {
   width: 100%;
-  height: 260px;
+  max-height: 320px;
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 28px;
 }
 
-.docx-viewer-cover-img {
+.docx-doc-cover-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.docx-viewer-meta-row {
+.docx-doc-meta-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 18px;
   border-bottom: 1px solid var(--border-subtle);
-  margin-bottom: 24px;
+  padding-bottom: 18px;
+  margin-bottom: 28px;
 }
 
-.docx-author-profile {
+.docx-doc-author-lockup {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.docx-author-avatar {
+.docx-doc-avatar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(236, 72, 153, 0.4);
+  border: 2px solid rgba(99, 102, 241, 0.4);
 }
 
-.docx-author-name {
+.docx-doc-author-name {
+  font-size: 1rem;
   font-weight: 700;
-  color: #ffffff;
-  font-size: 0.95rem;
+  color: #f8fafc;
 }
 
-.docx-author-sub {
-  font-size: 0.8rem;
+.docx-doc-author-handle {
+  font-size: 0.82rem;
   color: var(--text-muted);
 }
 
-.docx-story-date {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-
-.docx-viewer-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 2.2rem;
+.docx-doc-main-title {
+  font-family: Outfit, sans-serif;
+  font-size: 2.35rem;
   font-weight: 800;
-  line-height: 1.25;
   color: #ffffff;
-  margin-bottom: 24px;
+  line-height: 1.25;
+  margin-bottom: 28px;
   letter-spacing: -0.02em;
 }
 
-.docx-viewer-prose p {
-  margin-bottom: 18px;
+.docx-doc-prose-body {
+  font-size: 1.08rem;
+  line-height: 1.85;
+  color: #e2e8f0;
+  word-break: break-word;
 }
 
-.docx-viewer-prose h1 {
+.docx-doc-prose-body p {
+  margin-bottom: 20px;
+}
+
+.docx-doc-prose-body h1 {
   font-size: 1.85rem;
   font-weight: 800;
   color: #ffffff;
-  margin-top: 30px;
+  margin-top: 32px;
   margin-bottom: 14px;
   line-height: 1.3;
 }
 
-.docx-viewer-prose h2 {
+.docx-doc-prose-body h2 {
   font-size: 1.45rem;
   font-weight: 700;
   color: #f1f5f9;
-  margin-top: 24px;
+  margin-top: 26px;
   margin-bottom: 12px;
 }
 
-.docx-viewer-prose h3 {
+.docx-doc-prose-body h3 {
   font-size: 1.2rem;
   font-weight: 600;
   color: #e2e8f0;
@@ -1971,31 +2311,31 @@ button {
   margin-bottom: 10px;
 }
 
-.docx-viewer-prose blockquote {
-  border-left: 4px solid #f472b6;
-  background: rgba(236, 72, 153, 0.06);
+.docx-doc-prose-body blockquote {
+  border-left: 4px solid #38bdf8;
+  background: rgba(56, 189, 248, 0.08);
   padding: 12px 20px;
   border-radius: 0 10px 10px 0;
-  margin: 20px 0;
+  margin: 22px 0;
   font-style: italic;
-  color: #fbcfe8;
+  color: #bae6fd;
 }
 
-.docx-viewer-prose ul {
+.docx-doc-prose-body ul {
   list-style-type: disc;
-  margin: 14px 0 18px 28px;
+  margin: 14px 0 20px 28px;
 }
 
-.docx-viewer-prose ol {
+.docx-doc-prose-body ol {
   list-style-type: decimal;
-  margin: 14px 0 18px 28px;
+  margin: 14px 0 20px 28px;
 }
 
-.docx-viewer-prose li {
+.docx-doc-prose-body li {
   margin-bottom: 6px;
 }
 
-.docx-viewer-prose code {
+.docx-doc-prose-body code {
   font-family: 'JetBrains Mono', Consolas, monospace;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -2005,7 +2345,7 @@ button {
   color: #38bdf8;
 }
 
-.docx-viewer-tags {
+.docx-doc-tags-row {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -2014,22 +2354,30 @@ button {
   border-top: 1px solid var(--border-subtle);
 }
 
-.docx-viewer-footer {
-  padding: 14px 24px;
-  background: rgba(15, 23, 42, 0.95);
-  border-top: 1px solid var(--border-subtle);
+.docx-doc-end-row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-subtle);
 }
 
-.docx-viewer-footer-info {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 400px;
+.docx-doc-bottom-cancel-btn {
+  padding: 10px 36px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: #f1f5f9;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.docx-doc-bottom-cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
 }
 
 
