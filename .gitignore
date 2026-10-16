@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Installers and packaged binaries (exceeds GitHub 100MB limit)
+dist-installer/
+installer/
+win-unpacked/
+*.exe
+*.exe.blockmap
+builder-debug.yml
+
+# Database
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+
+# Logs & temp
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.system_generated/
+test_build.exe
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

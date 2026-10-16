@@ -1,0 +1,62 @@
+{
+  "name": "tweetvault",
+  "version": "1.0.0",
+  "description": "TweetVault — Spaces, Tweets & Stories Manager for Windows",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win --x64"
+  },
+  "keywords": [
+    "tweetvault",
+    "tweets",
+    "stories",
+    "golang",
+    "react",
+    "postgres"
+  ],
+  "author": "TweetVault",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^44.7.2",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.tweetvault.desktop",
+    "productName": "TweetVault",
+    "directories": {
+      "output": "dist-installer"
+    },
+    "files": [
+      "main.js",
+      "package.json",
+      "dist/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "bin",
+        "to": "bin"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "TweetVault"
+    }
+  }
+}
