@@ -1,6 +1,6 @@
 {
   "name": "tweetvault",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TweetVault — Spaces, Tweets & Stories Manager for Windows",
   "main": "main.js",
   "scripts": {

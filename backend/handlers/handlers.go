@@ -141,6 +141,11 @@ func DeleteSpace(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Cleanly cascade delete posts, folders, collections belonging to this space
+	_, _ = database.DB.Exec(`DELETE FROM posts WHERE space_id = ?`, id)
+	_, _ = database.DB.Exec(`DELETE FROM folders WHERE space_id = ?`, id)
+	_, _ = database.DB.Exec(`DELETE FROM collections WHERE space_id = ?`, id)
+
 	_, err = database.DB.Exec(`DELETE FROM spaces WHERE id = ?`, id)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, "Failed to delete space: "+err.Error())

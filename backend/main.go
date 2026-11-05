@@ -69,6 +69,7 @@ func main() {
 	mux.HandleFunc("GET /api/media/{filename}", handlers.ServeMedia)
 	mux.HandleFunc("POST /api/media/download", handlers.DownloadMedia)
 	mux.HandleFunc("POST /api/media/upload", handlers.UploadMedia)
+	mux.HandleFunc("POST /api/migrate/localsocialarchive", handlers.MigrateLocalSocialArchive)
 
 	// Health check
 	mux.HandleFunc("GET /api/health", func(w http.ResponseWriter, r *http.Request) {

@@ -7,6 +7,7 @@ node_modules/
 dist-installer/
 installer/
 win-unpacked/
+build/bin/
 *.exe
 *.exe.blockmap
 builder-debug.yml
@@ -30,3 +31,8 @@ test_build.exe
 Thumbs.db
 .vscode/
 .idea/
+
+# Archives & Temp
+*.zip
+*.tar.gz
+frontend/package.json.md5

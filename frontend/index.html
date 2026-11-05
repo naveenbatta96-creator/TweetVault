@@ -8,7 +8,28 @@
     <meta name="description" content="A modern space-organized vault for archiving and exploring tweets, articles, and stories with Go backend and PostgreSQL." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script>
+      window.addEventListener('error', function(e) {
+        try {
+          fetch('/api/client-log', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'uncaught_error', message: e.message, file: e.filename, line: e.lineno, col: e.colno, stack: e.error ? e.error.stack : '' })
+          });
+        } catch(_) {}
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        try {
+          fetch('/api/client-log', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'unhandledrejection', reason: String(e.reason), stack: e.reason && e.reason.stack ? e.reason.stack : '' })
+          });
+        } catch(_) {}
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -342,6 +342,30 @@ func ServeMedia(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Add explicit Content-Type for videos and images to ensure immediate browser playback
+	ext := strings.ToLower(filepath.Ext(safeName))
+	switch ext {
+	case ".mp4", ".m4v":
+		w.Header().Set("Content-Type", "video/mp4")
+	case ".webm":
+		w.Header().Set("Content-Type", "video/webm")
+	case ".mov":
+		w.Header().Set("Content-Type", "video/quicktime")
+	case ".mkv":
+		w.Header().Set("Content-Type", "video/x-matroska")
+	case ".png":
+		w.Header().Set("Content-Type", "image/png")
+	case ".jpg", ".jpeg", ".jfif":
+		w.Header().Set("Content-Type", "image/jpeg")
+	case ".webp":
+		w.Header().Set("Content-Type", "image/webp")
+	case ".gif":
+		w.Header().Set("Content-Type", "image/gif")
+	case ".svg":
+		w.Header().Set("Content-Type", "image/svg+xml")
+	}
+
+	w.Header().Set("Accept-Ranges", "bytes")
 	// Add strong cache control headers
 	w.Header().Set("Cache-Control", "public, max-age=31536000, immutable")
 	http.ServeFile(w, r, filePath)

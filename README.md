@@ -17,26 +17,30 @@
   * Paste raw screenshots or drag-and-drop local images.
 * **High Performance Desktop Stack:**
   * **Frontend:** React 19 + Vite + Lexical Rich Text Engine.
-  * **Backend:** Golang embedded server with SQLite WAL mode persistence.
-  * **Desktop:** Electron shell with zero-configuration installer.
+  * **Backend & Desktop:** Wails v2 + Go + native WebView2 runtime with pure-Go SQLite WAL persistence.
+  * **Ultra Lightweight:** Single ~17 MB standalone executable (replaces heavy 115+ MB Electron shell).
 
 ---
 
 ## 🛠️ Project Structure
 
 ```text
-├── backend/          # Go HTTP REST API & SQLite database
-│   ├── handlers/     # Spaces, Folders, Collections, Posts & Media handlers
-│   ├── database/     # SQLite schema, WAL mode, migrations
-│   └── main.go       # Go entrypoint & static SPA embedder
-├── frontend/         # React + Vite application
+├── build/            # Wails build assets (Windows manifest, icons, installer)
+│   └── bin/          # Compiled executable (TweetVault.exe)
+├── database/         # SQLite schema, WAL mode, migrations
+├── handlers/         # Spaces, Folders, Collections, Posts & Media handlers
+├── models/           # Data models and structures
+├── frontend/         # React 19 + Vite application
 │   └── src/
 │       ├── components/
 │       │   ├── StoryDocEditor.jsx # Lexical-powered rich editor
 │       │   ├── StoryDocViewer.jsx # Reading view modal
 │       │   └── ImageNode.jsx      # Image node with auto local download
 │       └── App.jsx
-└── desktop-app/      # Electron desktop wrapper & packaging
+├── main.go           # Wails desktop entrypoint & in-process AssetServer API
+├── app.go            # Wails desktop lifecycle & runtime bridge
+├── wails.json        # Wails v2 project configuration
+└── go.mod            # Go module definitions
 ```
 
 ---
@@ -46,36 +50,21 @@
 ### Prerequisites
 * [Node.js](https://nodejs.org/) (v18+)
 * [Go](https://go.dev/) (v1.22+)
+* [Wails v2](https://wails.io/) (`go install github.com/wailsapp/wails/v2/cmd/wails@latest`)
 
 ### Development Mode
 
-1. **Start the Go Backend:**
-   ```bash
-   cd backend
-   go run .
-   ```
-
-2. **Start the Frontend:**
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
-
-3. **Start the Desktop App (Optional):**
-   ```bash
-   cd desktop-app
-   npm install
-   npm start
-   ```
-
-### Building Installers
-
+Run the app with live reload for both Go backend and React frontend:
 ```bash
-cd desktop-app
-npm run build:win
+wails dev
+```
+
+### Production Build
+
+Compile a single, self-contained native Windows executable:
+```bash
+wails build
 ```
 
 Generates:
-* `TweetVault Setup.exe` (NSIS Installer)
-* `TweetVault.exe` (Portable executable)
+* `build/bin/TweetVault.exe` (~17.5 MB standalone executable)

@@ -5,20 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "vite",
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lexical/history": "^0.52.0",
-    "@lexical/html": "^0.52.0",
-    "@lexical/list": "^0.52.0",
-    "@lexical/markdown": "^0.52.0",
-    "@lexical/react": "^0.52.0",
-    "@lexical/rich-text": "^0.52.0",
-    "@lexical/selection": "^0.52.0",
-    "@lexical/utils": "^0.52.0",
-    "lexical": "^0.52.0",
+    "@hugeicons/core-free-icons": "^4.4.0",
+    "@hugeicons/react": "^1.1.10",
     "lucide-react": "^1.57.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
